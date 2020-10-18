@@ -20,6 +20,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import kr.co.restorang.config.security.service.UserDetailsServiceImpl;
 
 
+
 public class AuthTokenFilter extends OncePerRequestFilter {
 	
 	@Autowired

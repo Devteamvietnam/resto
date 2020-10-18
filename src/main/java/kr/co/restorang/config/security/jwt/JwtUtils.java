@@ -1,6 +1,5 @@
 package kr.co.restorang.config.security.jwt;
 
-
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.Date;
@@ -19,7 +18,6 @@ import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import kr.co.restorang.config.GeneralConfig;
 import kr.co.restorang.config.security.service.UserDetailsImpl;
-
 
 
 @Component
