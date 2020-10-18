@@ -3,10 +3,12 @@ package kr.co.restorang.converter;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import kr.co.restorang.dto.ArImageDto;
-import kr.co.restorang.dto.ArMenuDto;
-import kr.co.restorang.entity.ArImageEntity;
-import kr.co.restorang.entity.ArMenuEntity;
+import kr.co.restorang.dto.menu.ArImageDto;
+import kr.co.restorang.dto.menu.ArMenuDto;
+import kr.co.restorang.dto.menu.ArVideoDto;
+import kr.co.restorang.entity.menu.ArImageEntity;
+import kr.co.restorang.entity.menu.ArMenuEntity;
+import kr.co.restorang.entity.menu.ArVideoEntity;
 
 public class MenuConverter extends BaseConverter {
 
@@ -49,4 +51,19 @@ public class MenuConverter extends BaseConverter {
 		return mEn;
 	}
 	//END ARMENU
+	
+	// AR VIDEO
+	public ArVideoDto arVideoEntityToDto (ArVideoEntity arvideoEntity) {
+		ArVideoDto arvideoDto = mapper.map(arvideoEntity, ArVideoDto.class);
+		return arvideoDto;
+	}
+	public List<ArVideoDto> arvideoEntityToDtoList(List<ArVideoEntity> list) {
+		return list.stream().map(b -> { return arVideoEntityToDto(b); }).collect(Collectors.toList());
+	}
+	
+	public ArVideoEntity arvideoDtoToEntity(ArVideoDto arvideoDto) {
+		ArVideoEntity vEn = mapper.map(arvideoDto, ArVideoEntity.class);
+		return vEn;
+	}
+	// END AR VIDEO
 }

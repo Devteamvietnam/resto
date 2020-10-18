@@ -1,4 +1,4 @@
-package kr.co.restorang.entity;
+package kr.co.restorang.entity.user;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;

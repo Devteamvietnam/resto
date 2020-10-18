@@ -1,4 +1,4 @@
-package kr.co.restorang.entity;
+package kr.co.restorang.entity.menu;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
