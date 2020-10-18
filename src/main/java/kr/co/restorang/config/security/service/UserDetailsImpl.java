@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import kr.co.restorang.entity.UserEntity;
+import kr.co.restorang.entity.user.UserEntity;
 
 
 public class UserDetailsImpl implements UserDetails {

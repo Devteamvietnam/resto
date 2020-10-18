@@ -26,13 +26,15 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import kr.co.restorang.converter.MenuConverter;
-import kr.co.restorang.dto.ArImageDto;
-import kr.co.restorang.dto.ArMenuDto;
-import kr.co.restorang.entity.ArImageEntity;
-import kr.co.restorang.entity.ArMenuEntity;
-import kr.co.restorang.entity.MenuImageEntity;
+import kr.co.restorang.dto.menu.ArImageDto;
+import kr.co.restorang.dto.menu.ArMenuDto;
+import kr.co.restorang.dto.menu.ArVideoDto;
+import kr.co.restorang.entity.menu.ArImageEntity;
+import kr.co.restorang.entity.menu.ArMenuEntity;
+import kr.co.restorang.entity.menu.ArVideoEntity;
+import kr.co.restorang.entity.menu.MenuImageEntity;
 import kr.co.restorang.exceptionhandler.WebappException;
-import kr.co.restorang.services.MenuServiceList;
+import kr.co.restorang.services.menu.MenuServiceList;
 
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -219,4 +221,54 @@ public class MenuController {
 				
 			}
 	//END AR MENU
+			
+  // AR VIDEO
+			@GetMapping(value="/arvideo/list")
+			public ResponseEntity<?> loadAllArVideo() throws WebappException {
+				logger.info("Load All ArVideo");
+				List <ArVideoDto> arvideoList = MenuConverter.getInstance().arvideoEntityToDtoList(menuService.loadAllArVideo());
+				return new ResponseEntity<List<ArVideoDto>>(arvideoList, HttpStatus.OK);
+				
+			}
+			
+			@GetMapping(value = "/arvideo/{arvideoId}")
+			public ResponseEntity<?> getArvideoById(@PathVariable String arvideoId) {
+				logger.info("Loading Arvideo by Id: ", arvideoId);
+				ArVideoDto arvideoDto = MenuConverter.getInstance().arVideoEntityToDto(menuService.getArVideo(arvideoId).get());
+				return new ResponseEntity<ArVideoDto>(arvideoDto, HttpStatus.OK);
+			}
+			
+			@PutMapping(value="/arvideo/update/{arvideoId}")
+			public ResponseEntity<?> updateArVideo(@PathVariable("arvideoId") String arvideoId, @RequestParam(name="data") String arvideoData) throws JsonMappingException, JsonProcessingException{
+				logger.info("Update Arvideo by id");
+				ArVideoDto arvideoResquest = mapper.readValue(arvideoData, ArVideoDto.class);
+				final ArVideoEntity vME = menuService.getArVideo(arvideoId).get();
+				vME.setTitle(arvideoResquest.getTitle());
+				vME.setContent(arvideoResquest.getContent());
+				vME.setLink(arvideoResquest.getLink());
+				menuService.saveArVideo(vME);
+				ArVideoDto arvideo = MenuConverter.getInstance().arVideoEntityToDto(vME);
+				return new ResponseEntity<ArVideoEntity>(vME, HttpStatus.OK);
+			
+			}
+
+				@PostMapping(value = "/arvideo/insert")
+				public ResponseEntity<?> InsertArMenu(@RequestParam(name="data") String arvideoData) 
+								throws JsonMappingException, JsonProcessingException {
+					logger.info("arvideo insert");
+					ArVideoDto arvideoRequest = mapper.readValue(arvideoData, ArVideoDto.class);
+					ArVideoEntity VEn = MenuConverter.getInstance().arvideoDtoToEntity(arvideoRequest);
+					menuService.saveArVideo(VEn);
+					ArVideoDto arvideo = MenuConverter.getInstance().arVideoEntityToDto(VEn);
+					return new ResponseEntity<ArVideoDto>(arvideo, HttpStatus.OK);
+				}
+				@DeleteMapping(value ="/arvideo/delete/{id}")
+				public ResponseEntity<?> deleteArVideo(@PathVariable String id){
+					logger.info("delete Arvideo");
+					menuService.deleteArvideo(id);
+					return new ResponseEntity<String>("Delete successfull!", HttpStatus.OK);
+					
+				}
+			
+ // END AR VIDEO
 }

@@ -1,4 +1,4 @@
-package kr.co.restorang.dto;
+package kr.co.restorang.dto.user;
 
 
 import javax.validation.constraints.NotBlank;

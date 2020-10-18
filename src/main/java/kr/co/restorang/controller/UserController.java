@@ -24,13 +24,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import kr.co.restorang.config.security.jwt.JwtUtils;
 import kr.co.restorang.config.security.service.UserDetailsImpl;
-import kr.co.restorang.dto.LoginRequest;
-import kr.co.restorang.dto.SignupRequest;
-import kr.co.restorang.entity.RoleEntity;
-import kr.co.restorang.entity.UserEntity;
+import kr.co.restorang.dto.user.LoginRequest;
+import kr.co.restorang.dto.user.SignupRequest;
+import kr.co.restorang.entity.user.RoleEntity;
+import kr.co.restorang.entity.user.UserEntity;
 import kr.co.restorang.enums.ERole;
-import kr.co.restorang.repository.RoleRepository;
-import kr.co.restorang.repository.UserRepository;
+import kr.co.restorang.repository.user.RoleRepository;
+import kr.co.restorang.repository.user.UserRepository;
 import kr.co.restorang.response.JwtResponse;
 import kr.co.restorang.response.MessageResponse;
 
