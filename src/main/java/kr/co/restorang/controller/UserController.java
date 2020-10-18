@@ -106,22 +106,22 @@ public class UserController {
 		Set<RoleEntity> roles = new HashSet<>();
 
 		if (strRoles == null) {
-			RoleEntity userRole = roleRepository.findByName(ERole.ROLE_USER)
+			RoleEntity adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
 					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-			roles.add(userRole);
+			roles.add(adminRole);
 		} else {
 			strRoles.forEach(role -> {
 				switch (role) {
-				case "admin":
-					RoleEntity adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+				case "user":
+					RoleEntity userRole = roleRepository.findByName(ERole.ROLE_USER)
 							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-					roles.add(adminRole);
+					roles.add(userRole);
 
 					break;
 				default:
-					RoleEntity userRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+					RoleEntity adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
 							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-					roles.add(userRole);
+					roles.add(adminRole);
 				}
 			});
 		}
