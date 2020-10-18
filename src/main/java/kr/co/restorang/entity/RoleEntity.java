@@ -24,3 +24,4 @@ public class RoleEntity {
 	@Column(length = 20)
 	private ERole name;
 }
+

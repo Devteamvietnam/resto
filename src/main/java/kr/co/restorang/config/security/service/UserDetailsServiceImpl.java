@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import kr.co.restorang.entity.UserEntity;
 import kr.co.restorang.repository.UserRepository;
 
+
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 	@Autowired

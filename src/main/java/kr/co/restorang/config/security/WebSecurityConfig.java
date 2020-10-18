@@ -18,6 +18,7 @@ import kr.co.restorang.config.security.jwt.AuthEntryPointJwt;
 import kr.co.restorang.config.security.jwt.AuthTokenFilter;
 import kr.co.restorang.config.security.service.UserDetailsServiceImpl;
 
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -59,9 +60,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 			.authorizeRequests()
 			.antMatchers("/", "/favicon.ico", "/css/**", "/js/**", "/images/**", "/img/**", "/fonts/**", "/statics/**", "/api/v1/**/viewJPG/**",  "/api/v1/**/viewJPEG/**",  "/api/v1/**/viewPNG/**", "/api/v1/**/viewGIF/**").permitAll()
+            .antMatchers("/v2/**").permitAll()
+            .antMatchers("/v3/**").permitAll()
             .antMatchers("/configuration/ui/**").permitAll()
+            .antMatchers("/swagger-resources/**").permitAll()
             .antMatchers("/configuration/security/**").permitAll()
             .antMatchers("/webjars/**").permitAll()
+			.antMatchers("/health").permitAll()
 			.antMatchers("/api/v1/**").permitAll()
 			.anyRequest().authenticated();
 
