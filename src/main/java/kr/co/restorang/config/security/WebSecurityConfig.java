@@ -63,10 +63,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/v2/**").permitAll()
             .antMatchers("/v3/**").permitAll()
             .antMatchers("/configuration/ui/**").permitAll()
-            .antMatchers("/swagger-resources/**").permitAll()
             .antMatchers("/configuration/security/**").permitAll()
             .antMatchers("/webjars/**").permitAll()
-			.antMatchers("/health").permitAll()
 			.antMatchers("/api/v1/**").permitAll()
 			.anyRequest().authenticated();
 

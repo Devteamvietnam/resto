@@ -25,6 +25,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import kr.co.restorang.converter.MenuConverter;
+import kr.co.restorang.dto.ArImageDto;
 import kr.co.restorang.entity.ArImageEntity;
 import kr.co.restorang.entity.MenuImageEntity;
 import kr.co.restorang.exceptionhandler.WebappException;
@@ -48,15 +50,22 @@ public class MenuController {
 	@GetMapping(value="/arimage/list")
 	public ResponseEntity<?> loadAllTeam() throws WebappException {
 		logger.info("Load All ArImage");
-		List<ArImageEntity> listArImage = menuService.loadAllArImage();
-		
-		return new ResponseEntity<List<ArImageEntity>>(listArImage, HttpStatus.OK);
+		List <ArImageDto> arimageList = MenuConverter.getInstance().arimageEntityToDtoList(menuService.loadAllArImage());
+		return new ResponseEntity<List<ArImageDto>>(arimageList, HttpStatus.OK);
 		
 	}
+	
+	@GetMapping(value = "/arimage/{arimageId}")
+	public ResponseEntity<?> getArimageById(@PathVariable String arimageId) {
+		logger.info("Loading Arimage by Id: ", arimageId);
+		ArImageDto arimageDto = MenuConverter.getInstance().arImageEntityToDto(menuService.getArImage(arimageId).get());
+		return new ResponseEntity<ArImageDto>(arimageDto, HttpStatus.OK);
+	}
+	
 	@PutMapping(value="/arimage/update/{arimageId}")
 	public ResponseEntity<?> updateArImage(@PathVariable("arimageId") String arimageId, @RequestParam(name="data") String arimageData, @RequestParam(name = "file", required = false) MultipartFile file) throws JsonMappingException, JsonProcessingException{
 		logger.info("Update Arimage by id");
-		ArImageEntity arimageResquest = mapper.readValue(arimageData, ArImageEntity.class);
+		ArImageDto arimageResquest = mapper.readValue(arimageData, ArImageDto.class);
 		final ArImageEntity AEn = menuService.getArImage(arimageId).get();
 		AEn.setTitle(arimageResquest.getTitle());
 		AEn.setContent(arimageResquest.getContent());
@@ -64,6 +73,7 @@ public class MenuController {
 			saveArImage(file, AEn);
 		}
 		menuService.saveArImage(AEn);
+		ArImageDto arimage = MenuConverter.getInstance().arImageEntityToDto(AEn);
 		return new ResponseEntity<ArImageEntity>(AEn, HttpStatus.OK);
 	
 	}
@@ -98,17 +108,20 @@ public class MenuController {
 			}
 		}
 		@PostMapping(value = "/arimage/insert")
-		public ResponseEntity<?> InsertArImage(@RequestParam(name="data") String arimageData, @RequestParam(name = "file", required = false) MultipartFile file) throws JsonMappingException, JsonProcessingException {
+		public ResponseEntity<?> InsertArImage(@RequestParam(name="data") String arimageData, 
+				@RequestParam(name = "file", required = false) MultipartFile file) 
+						throws JsonMappingException, JsonProcessingException {
 			logger.info("arimage insert");
-			ArImageEntity arimageRequest = mapper.readValue(arimageData, ArImageEntity.class);
-				
+			ArImageDto arimageRequest = mapper.readValue(arimageData, ArImageDto.class);
+			ArImageEntity aEn = MenuConverter.getInstance().arimageDtoToEntity(arimageRequest);
 			if(file != null) {
-				saveArImage(file,arimageRequest);
+				saveArImage(file,aEn);
 			}
-			menuService.saveArImage(arimageRequest);
-			return new ResponseEntity<ArImageEntity>(arimageRequest, HttpStatus.OK);
+			menuService.saveArImage(aEn);
+			ArImageDto arimage = MenuConverter.getInstance().arImageEntityToDto(aEn);
+			return new ResponseEntity<ArImageDto>(arimage, HttpStatus.OK);
 		}
-		@DeleteMapping(value ="/delete/{id}")
+		@DeleteMapping(value ="/arimage/delete/{id}")
 		public ResponseEntity<?> deleteTeam(@PathVariable String id){
 			logger.info("delete Arimage");
 			menuService.delete(id);
