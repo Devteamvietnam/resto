@@ -27,7 +27,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import kr.co.restorang.converter.MenuConverter;
 import kr.co.restorang.dto.ArImageDto;
+import kr.co.restorang.dto.ArMenuDto;
 import kr.co.restorang.entity.ArImageEntity;
+import kr.co.restorang.entity.ArMenuEntity;
 import kr.co.restorang.entity.MenuImageEntity;
 import kr.co.restorang.exceptionhandler.WebappException;
 import kr.co.restorang.services.MenuServiceList;
@@ -46,9 +48,9 @@ public class MenuController {
 
 	@Autowired
 	ObjectMapper mapper;
-	
+	// AR IMAGE
 	@GetMapping(value="/arimage/list")
-	public ResponseEntity<?> loadAllTeam() throws WebappException {
+	public ResponseEntity<?> loadAllArImage() throws WebappException {
 		logger.info("Load All ArImage");
 		List <ArImageDto> arimageList = MenuConverter.getInstance().arimageEntityToDtoList(menuService.loadAllArImage());
 		return new ResponseEntity<List<ArImageDto>>(arimageList, HttpStatus.OK);
@@ -77,7 +79,7 @@ public class MenuController {
 		return new ResponseEntity<ArImageEntity>(AEn, HttpStatus.OK);
 	
 	}
-	//update image
+	 //update image
 		public void saveArImage(MultipartFile file, ArImageEntity AEn) {
 			String name = StringUtils.cleanPath(file.getOriginalFilename());
 			if(name.contains("..")) {
@@ -122,11 +124,99 @@ public class MenuController {
 			return new ResponseEntity<ArImageDto>(arimage, HttpStatus.OK);
 		}
 		@DeleteMapping(value ="/arimage/delete/{id}")
-		public ResponseEntity<?> deleteTeam(@PathVariable String id){
+		public ResponseEntity<?> deleteArimage(@PathVariable String id){
 			logger.info("delete Arimage");
 			menuService.delete(id);
 			
 			return new ResponseEntity<String>("Delete successfull!", HttpStatus.OK);
 			
 		}
+	// END AR IMAGE
+	
+	// AR Menu
+		@GetMapping(value="/armenu/list")
+		public ResponseEntity<?> loadAllArMenu() throws WebappException {
+			logger.info("Load All ArImage");
+			List <ArMenuDto> armenuList = MenuConverter.getInstance().armenuEntityToDtoList(menuService.loadAllArMenu());
+			return new ResponseEntity<List<ArMenuDto>>(armenuList, HttpStatus.OK);
+			
+		}
+		
+		@GetMapping(value = "/armenu/{armenuId}")
+		public ResponseEntity<?> getArmenuById(@PathVariable String armenuId) {
+			logger.info("Loading Armenu by Id: ", armenuId);
+			ArMenuDto armenuDto = MenuConverter.getInstance().arMenuEntityToDto(menuService.getArMenu(armenuId).get());
+			return new ResponseEntity<ArMenuDto>(armenuDto, HttpStatus.OK);
+		}
+		
+		@PutMapping(value="/armenu/update/{armenuId}")
+		public ResponseEntity<?> updateArMenu(@PathVariable("armenuId") String armenuId, @RequestParam(name="data") String armenuData, @RequestParam(name = "file", required = false) MultipartFile file) throws JsonMappingException, JsonProcessingException{
+			logger.info("Update Armenu by id");
+			ArMenuDto armenuResquest = mapper.readValue(armenuData, ArMenuDto.class);
+			final ArMenuEntity aME = menuService.getArMenu(armenuId).get();
+			aME.setTitle(armenuResquest.getTitle());
+			aME.setContent(armenuResquest.getContent());
+			aME.setCategory(armenuResquest.getCategory());
+			aME.setPrice(armenuResquest.getPrice());
+			if(file != null) {
+				saveArMenu(file, aME);
+			}
+			menuService.saveArMenu(aME);
+			ArMenuDto arimage = MenuConverter.getInstance().arMenuEntityToDto(aME);
+			return new ResponseEntity<ArMenuEntity>(aME, HttpStatus.OK);
+		
+		}
+		 //update image
+			public void saveArMenu(MultipartFile file, ArMenuEntity aME) {
+				String name = StringUtils.cleanPath(file.getOriginalFilename());
+				if(name.contains("..")) {
+					logger.error("error for path of file");
+				}
+				
+				try {
+					MenuImageEntity imgArmenu;
+					if( aME.getImg() == null) {
+						MenuImageEntity imgMe= new MenuImageEntity();
+						imgMe.setFileName(name);
+						imgMe.setFileType(file.getContentType());
+						imgMe.setData(file.getBytes());
+						imgArmenu = menuService.saveImage(imgMe);
+						aME.setImg(imgArmenu);
+					}
+					else {
+						imgArmenu = aME.getImg(); 
+						imgArmenu.setFileName(name);
+						imgArmenu.setFileType(file.getContentType());
+						imgArmenu.setData(file.getBytes());
+						imgArmenu = menuService.saveImage(imgArmenu);
+						aME.setImg(imgArmenu);
+					}
+				} 
+				catch (IOException e) {
+					logger.error(e.toString());
+				}
+			}
+			@PostMapping(value = "/armenu/insert")
+			public ResponseEntity<?> InsertArMenu(@RequestParam(name="data") String armenuData, 
+					@RequestParam(name = "file", required = false) MultipartFile file) 
+							throws JsonMappingException, JsonProcessingException {
+				logger.info("armenu insert");
+				ArMenuDto armenuRequest = mapper.readValue(armenuData, ArMenuDto.class);
+				ArMenuEntity MEn = MenuConverter.getInstance().armenuDtoToEntity(armenuRequest);
+				if(file != null) {
+					saveArMenu(file,MEn);
+				}
+				menuService.saveArMenu(MEn);
+				ArMenuDto armenu = MenuConverter.getInstance().arMenuEntityToDto(MEn);
+				return new ResponseEntity<ArMenuDto>(armenu, HttpStatus.OK);
+			}
+			@DeleteMapping(value ="/armenu/delete/{id}")
+			public ResponseEntity<?> deleteArmenu(@PathVariable String id){
+				logger.info("delete Armenu");
+				menuService.delete(id);
+				
+				return new ResponseEntity<String>("Delete successfull!", HttpStatus.OK);
+				
+			}
+	//END AR MENU
 }

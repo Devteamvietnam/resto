@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import kr.co.restorang.dto.ArImageDto;
+import kr.co.restorang.dto.ArMenuDto;
 import kr.co.restorang.entity.ArImageEntity;
+import kr.co.restorang.entity.ArMenuEntity;
 
 public class MenuConverter extends BaseConverter {
 
@@ -31,5 +33,20 @@ public class MenuConverter extends BaseConverter {
 		ArImageEntity aEn = mapper.map(arimageDto, ArImageEntity.class);
 		return aEn;
 	}
-	//End
+	//End ARIMAGE
+	
+	// ARMENU
+	public ArMenuDto arMenuEntityToDto (ArMenuEntity armenuEntity) {
+		ArMenuDto armenuDto = mapper.map(armenuEntity, ArMenuDto.class);
+		return armenuDto;
+	}
+	public List<ArMenuDto> armenuEntityToDtoList(List<ArMenuEntity> list) {
+		return list.stream().map(b -> { return arMenuEntityToDto(b); }).collect(Collectors.toList());
+	}
+	
+	public ArMenuEntity armenuDtoToEntity(ArMenuDto armenuDto) {
+		ArMenuEntity mEn = mapper.map(armenuDto, ArMenuEntity.class);
+		return mEn;
+	}
+	//END ARMENU
 }
