@@ -7,8 +7,22 @@ import kr.co.restorang.entity.menu.ArImageEntity;
 import kr.co.restorang.entity.menu.ArMenuEntity;
 import kr.co.restorang.entity.menu.ArVideoEntity;
 import kr.co.restorang.entity.menu.MenuImageEntity;
+import kr.co.restorang.entity.menu.ProductEntity;
+import kr.co.restorang.entity.menu.SliderEntity;
 
 public interface MenuServiceList {
+//	Slider
+	List<SliderEntity> getSlider();
+	Optional<SliderEntity> getSliderById(String id);
+	SliderEntity saveSlider(SliderEntity slider);
+	void deleteSlider(String id);
+	
+//	product
+	List<ProductEntity> getProduct();
+	Optional<ProductEntity> geProducttById(String id);
+	ProductEntity saveProduct(ProductEntity product);
+	void deleteProduct(String id);
+	
  // AR IMAGE
 	List<ArImageEntity> loadAllArImage();
 	Optional <ArImageEntity> getArImage( String id);

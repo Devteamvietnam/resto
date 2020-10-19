@@ -10,14 +10,25 @@ import kr.co.restorang.entity.menu.ArImageEntity;
 import kr.co.restorang.entity.menu.ArMenuEntity;
 import kr.co.restorang.entity.menu.ArVideoEntity;
 import kr.co.restorang.entity.menu.MenuImageEntity;
+import kr.co.restorang.entity.menu.ProductEntity;
+import kr.co.restorang.entity.menu.SliderEntity;
 import kr.co.restorang.repository.menu.ArImageRepository;
 import kr.co.restorang.repository.menu.ArMenuRepository;
 import kr.co.restorang.repository.menu.ArVideoRepository;
 import kr.co.restorang.repository.menu.MenuImageRepository;
+import kr.co.restorang.repository.menu.ProductRepository;
+import kr.co.restorang.repository.menu.SliderRepository;
 
 @Service
 public class MenuServiceListImpl implements MenuServiceList{
-
+	
+//	---Begin slider and product---//
+	@Autowired
+	SliderRepository sliderRepository;
+	@Autowired
+	ProductRepository productRepository;
+//	---End slider and product---//
+	
 	@Autowired
 	ArImageRepository arimageRepository;
 	
@@ -29,6 +40,59 @@ public class MenuServiceListImpl implements MenuServiceList{
 	
 	@Autowired
 	MenuImageRepository menuimageRepository;
+
+//----------------Begin slider and product----------------//
+   //slider
+	@Override
+	public List<SliderEntity> getSlider() {
+		// TODO Auto-generated method stub
+		return sliderRepository.findAll();
+	}
+
+	@Override
+	public Optional<SliderEntity> getSliderById(String id) {
+		// TODO Auto-generated method stub
+		return sliderRepository.findById(id);
+	}
+
+	@Override
+	public SliderEntity saveSlider(SliderEntity slider) {
+		// TODO Auto-generated method stub
+		return sliderRepository.save(slider);
+	} 
+	
+	@Override
+	public void deleteSlider(String id) {
+		// TODO Auto-generated method stub
+		sliderRepository.deleteById(id);
+	}
+	
+   //product
+	@Override
+	public List<ProductEntity> getProduct() {
+		// TODO Auto-generated method stub
+		return productRepository.findAll();
+	}
+
+	@Override
+	public Optional<ProductEntity> geProducttById(String id) {
+		// TODO Auto-generated method stub
+		return productRepository.findById(id);
+	}
+
+	@Override
+	public ProductEntity saveProduct(ProductEntity product) {
+		// TODO Auto-generated method stub
+		return productRepository.save(product);
+	}
+	@Override
+	public void deleteProduct(String id) {
+		productRepository.deleteById(id);
+		
+	}
+//---------------End Slider and Product--------------//
+	
+
 	
 //AR IMAGE
 	@Override
@@ -108,5 +172,8 @@ public class MenuServiceListImpl implements MenuServiceList{
 			
 		}
 // END chung
+
+
+
 
 }
