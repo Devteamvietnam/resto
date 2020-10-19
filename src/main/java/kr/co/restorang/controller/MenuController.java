@@ -1,14 +1,20 @@
 package kr.co.restorang.controller;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StreamUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -241,6 +247,7 @@ public class MenuController {
 		final ArImageEntity AEn = menuService.getArImage(arimageId).get();
 		AEn.setTitle(arimageResquest.getTitle());
 		AEn.setContent(arimageResquest.getContent());
+		AEn.setCreatedDate(arimageResquest.getCreatedDate());
 		if (file != null) {
 			saveArImage(file, AEn);
 		}
@@ -297,7 +304,7 @@ public class MenuController {
 	@DeleteMapping(value = "/arimage/delete/{id}")
 	public ResponseEntity<?> deleteArimage(@PathVariable String id) {
 		logger.info("delete Arimage");
-		menuService.delete(id);
+		menuService.deleteArImage(id);
 
 		return new ResponseEntity<String>("Delete successfull!", HttpStatus.OK);
 
@@ -388,7 +395,7 @@ public class MenuController {
 	@DeleteMapping(value = "/armenu/delete/{id}")
 	public ResponseEntity<?> deleteArmenu(@PathVariable String id) {
 		logger.info("delete Armenu");
-		menuService.delete(id);
+		menuService.deleteArMenu(id);
 
 		return new ResponseEntity<String>("Delete successfull!", HttpStatus.OK);
 
@@ -445,5 +452,46 @@ public class MenuController {
 
 	}
 
-	// END AR VIDEO
+// END AR VIDEO
+	
+//	Load type image
+	@GetMapping(value = "/viewJPG/{fileId}", produces = MediaType.IMAGE_JPEG_VALUE)
+	public void getJPGImage(HttpServletResponse response, @PathVariable String fileId) throws IOException {
+		
+		logger.info("get JPG Image");
+		MenuImageEntity img = menuService.findImageById(fileId).get();
+		InputStream inputStream =  new ByteArrayInputStream(img.getData());
+		response.setContentType(MediaType.IMAGE_JPEG_VALUE);
+		StreamUtils.copy(inputStream, response.getOutputStream());
+	}
+	
+	@GetMapping(value = "/viewJPEG/{fileId}", produces = MediaType.IMAGE_JPEG_VALUE)
+	public void getJPEGImage(HttpServletResponse response, @PathVariable String fileId) throws IOException {
+		
+		logger.info("get JPEG Image");
+		MenuImageEntity img = menuService.findImageById(fileId).get();
+		InputStream inputStream =  new ByteArrayInputStream(img.getData());
+		response.setContentType(MediaType.IMAGE_JPEG_VALUE);
+		StreamUtils.copy(inputStream, response.getOutputStream());
+	}
+	
+	@GetMapping(value = "/viewPNG/{fileId}", produces = MediaType.IMAGE_PNG_VALUE)
+	public void getPNGImage(HttpServletResponse response, @PathVariable String fileId) throws IOException {
+		
+		logger.info("get PNG Image");
+		MenuImageEntity img = menuService.findImageById(fileId).get();
+		InputStream inputStream =  new ByteArrayInputStream(img.getData());
+		response.setContentType(MediaType.IMAGE_PNG_VALUE);
+		StreamUtils.copy(inputStream, response.getOutputStream());
+	}
+	
+	@GetMapping(value = "/viewGIF/{fileId}", produces = MediaType.IMAGE_GIF_VALUE)
+	public void getGIFImage(HttpServletResponse response, @PathVariable String fileId) throws IOException {
+		
+		logger.info("get GIF Image");
+		MenuImageEntity img = menuService.findImageById(fileId).get();
+		InputStream inputStream =  new ByteArrayInputStream(img.getData());
+		response.setContentType(MediaType.IMAGE_GIF_VALUE);
+		StreamUtils.copy(inputStream, response.getOutputStream());
+	}
 }

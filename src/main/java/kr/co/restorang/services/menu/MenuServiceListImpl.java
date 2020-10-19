@@ -110,6 +110,12 @@ public class MenuServiceListImpl implements MenuServiceList{
 	public ArImageEntity saveArImage(ArImageEntity arimage) {
 		return arimageRepository.save(arimage);
 	}
+	
+	@Override
+	public void deleteArImage(String id) {
+		arimageRepository.deleteById(id);
+		
+	}
 //END AR IMAGE
   
 // AR MENU
@@ -127,6 +133,12 @@ public class MenuServiceListImpl implements MenuServiceList{
 	@Override
 	public ArMenuEntity saveArMenu(ArMenuEntity imgMe) {
 		return armenuRepository.save(imgMe);
+	}
+
+	@Override
+	public void deleteArMenu(String id) {
+		 armenuRepository.deleteById(id);
+		
 	}
 
 // END AR MENU
@@ -166,14 +178,6 @@ public class MenuServiceListImpl implements MenuServiceList{
 		public Optional<MenuImageEntity> findImageById(String id) {
 			return menuimageRepository.findById(id);
 		}
-		@Override
-		public void delete(String id) {
-			armenuRepository.deleteById(id);
-			
-		}
 // END chung
-
-
-
 
 }

@@ -1,8 +1,6 @@
 package kr.co.restorang.entity.menu;
 
-import java.time.LocalDateTime;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -34,9 +32,8 @@ public class ArMenuEntity {
 	private String content;
 	private int price;
 	
-	@Column(name="created_date")
 	@DateTimeFormat(iso = ISO.DATE_TIME)
-	private LocalDateTime createDate;
+	private String createdDate;
 	
 	@EqualsAndHashCode.Exclude
 	@OneToOne
