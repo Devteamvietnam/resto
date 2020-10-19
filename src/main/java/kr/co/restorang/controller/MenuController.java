@@ -247,6 +247,7 @@ public class MenuController {
 		final ArImageEntity AEn = menuService.getArImage(arimageId).get();
 		AEn.setTitle(arimageResquest.getTitle());
 		AEn.setContent(arimageResquest.getContent());
+		AEn.setCreatedDate(arimageResquest.getCreatedDate());
 		if (file != null) {
 			saveArImage(file, AEn);
 		}
