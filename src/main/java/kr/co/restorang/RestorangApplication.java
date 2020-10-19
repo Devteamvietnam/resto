@@ -8,6 +8,7 @@ public class RestorangApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(RestorangApplication.class, args);
+		System.out.println("spring boot");
 	}
 
 }
