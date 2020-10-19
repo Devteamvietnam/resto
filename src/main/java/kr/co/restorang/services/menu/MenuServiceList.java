@@ -35,6 +35,8 @@ public interface MenuServiceList {
 	Optional<ArImageEntity> getArImage(String id);
 
 	ArImageEntity saveArImage(ArImageEntity imgEn);
+	
+	void deleteArImage(String id);
 
 // AR Menu
 	List<ArMenuEntity> loadAllArMenu();
@@ -42,6 +44,8 @@ public interface MenuServiceList {
 	Optional<ArMenuEntity> getArMenu(String id);
 
 	ArMenuEntity saveArMenu(ArMenuEntity imgMe);
+	
+	void deleteArMenu(String id);
 
 // AR VIDEO
 	List<ArVideoEntity> loadAllArVideo();
@@ -56,6 +60,4 @@ public interface MenuServiceList {
 	MenuImageEntity saveImage(MenuImageEntity img);
 
 	Optional<MenuImageEntity> findImageById(String id);
-
-	void delete(String id);
 }
