@@ -93,6 +93,7 @@ public class MenuController {
 		final SliderEntity sli = menuService.getSliderById(sliId).get();
 		sli.setTitle(sliderrequest.getTitle());
 		sli.setContent(sliderrequest.getContent());
+		sli.setCreatedatetime(sliderrequest.getCreatedatetime());
 		if (file != null) {
 			saveImgSlider(file, sli);
 		}
