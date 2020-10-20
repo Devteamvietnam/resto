@@ -340,6 +340,7 @@ public class MenuController {
 		aME.setContent(armenuResquest.getContent());
 		aME.setCategory(armenuResquest.getCategory());
 		aME.setPrice(armenuResquest.getPrice());
+		aME.setCreatedDate(armenuResquest.getCreatedDate());
 		if (file != null) {
 			saveArMenu(file, aME);
 		}
@@ -428,6 +429,7 @@ public class MenuController {
 		vME.setTitle(arvideoResquest.getTitle());
 		vME.setContent(arvideoResquest.getContent());
 		vME.setLink(arvideoResquest.getLink());
+		vME.setCreatedDate(arvideoResquest.getCreatedDate());
 		menuService.saveArVideo(vME);
 		ArVideoDto arvideo = MenuConverter.getInstance().arVideoEntityToDto(vME);
 		return new ResponseEntity<ArVideoEntity>(vME, HttpStatus.OK);
