@@ -1,8 +1,5 @@
 package kr.co.restorang.dto.menu;
 
-import java.time.LocalDateTime;
-
-import javax.persistence.Column;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
@@ -21,8 +18,7 @@ public class ArVideoDto {
 	private String link;
 	private String content;
 
-	@Column(name="created_date")
 	@DateTimeFormat(iso = ISO.DATE_TIME)
-	private LocalDateTime createDate;
+	private String createdDate;
 	
 }

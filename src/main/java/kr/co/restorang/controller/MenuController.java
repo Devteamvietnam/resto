@@ -248,6 +248,7 @@ public class MenuController {
 		final ArImageEntity AEn = menuService.getArImage(arimageId).get();
 		AEn.setTitle(arimageResquest.getTitle());
 		AEn.setContent(arimageResquest.getContent());
+		AEn.setCreatedDate(arimageResquest.getCreatedDate());
 		if (file != null) {
 			saveArImage(file, AEn);
 		}
@@ -304,7 +305,7 @@ public class MenuController {
 	@DeleteMapping(value = "/arimage/delete/{id}")
 	public ResponseEntity<?> deleteArimage(@PathVariable String id) {
 		logger.info("delete Arimage");
-		menuService.delete(id);
+		menuService.deleteArImage(id);
 
 		return new ResponseEntity<String>("Delete successfull!", HttpStatus.OK);
 
@@ -395,7 +396,7 @@ public class MenuController {
 	@DeleteMapping(value = "/armenu/delete/{id}")
 	public ResponseEntity<?> deleteArmenu(@PathVariable String id) {
 		logger.info("delete Armenu");
-		menuService.delete(id);
+		menuService.deleteArMenu(id);
 
 		return new ResponseEntity<String>("Delete successfull!", HttpStatus.OK);
 
